@@ -6,7 +6,8 @@
     "dev": "vite dev",
     "build": "prisma generate && vite build",
     "preview": "vite preview",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "generate": "prisma generate"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.0.0",
