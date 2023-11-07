@@ -4,6 +4,7 @@ import { fail, redirect } from "@sveltejs/kit";
 import { createPool } from "@vercel/postgres";
 const pool = createPool({
   connectionString: import.meta.env.VITE_DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
 });
 let responseCreated = false;
 
@@ -58,10 +59,8 @@ export const actions = {
         console.log(e);
       });
 
-      if(responseCreated){
-        throw redirect(303, "/survey/thank-you");
-      }
+    if (responseCreated) {
+      throw redirect(303, "/survey/thank-you");
+    }
   },
-
- 
 };
