@@ -40,10 +40,10 @@ export const actions = {
   submit: async (event) => {
     const responses = await event.request.formData();
 
-    const response1 = responses.get("response1") ?? "";
-    const response2 = responses.get("response2") ?? "";
-    const response3 = responses.get("response3") ?? "";
-    const userPreference = responses.get("userPreference") ?? "";
+    const response1 = responses.get("response1") || "";
+    const response2 = responses.get("response2") || "";
+    const response3 = responses.get("response3") || "";
+    const userPreference = responses.get("userPreference") || "";
 
     const userResponse = {
       response1,
