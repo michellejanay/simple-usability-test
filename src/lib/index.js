@@ -5,6 +5,10 @@ export let imgSrc = lushSubscription;
 
 export const saveResponse = (response, url) => {
   currentURL = url;
-  data.push(response);
+  if (response === "instructions") {
+    console.log(data);
+  } else {
+    data.push(response);
+  }
   console.log(data);
 };

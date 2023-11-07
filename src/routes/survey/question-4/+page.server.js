@@ -1,38 +1,67 @@
 /** @type {import('./$types').Actions} */
 import { v4 as uuidv4 } from "uuid";
-import { db } from "$lib/database";
 import { fail, redirect } from "@sveltejs/kit";
+import { createPool } from "@vercel/postgres";
+const pool = createPool({
+  connectionString: import.meta.env.VITE_DATABASE_URL,
+});
+let responseCreated = false;
+
+const addResponse = async (userResponse) => {
+  console.log(userResponse);
+  await pool.sql`
+  CREATE TABLE IF NOT EXISTS Responses (
+    id SERIAL PRIMARY KEY, 
+    response1 VARCHAR(255),
+    response2 VARCHAR(225),
+    response3 VARCHAR(225),
+    userPreference VARCHAR(225),
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  );
+  `;
+
+  const result = await pool.sql`
+    INSERT INTO public."Responses"(
+      id, response1, response2, response3, "userPreference", "createdAt")
+      VALUES (
+        ${uuidv4()}, ${userResponse.response1}, ${userResponse.response2}, ${
+    userResponse.response3
+  }, ${userResponse.userPreference}, ${new Date()}
+      );
+    `;
+  console.log(result);
+  return { result };
+};
 
 export const actions = {
   submit: async (event) => {
     const responses = await event.request.formData();
 
-    const response1 = responses.get("response1");
-    const response2 = responses.get("response2");
-    const response3 = responses.get("response3");
-    const userPreference = responses.get("response4");
+    const response1 = responses.get("response1") ?? "";
+    const response2 = responses.get("response2") ?? "";
+    const response3 = responses.get("response3") ?? "";
+    const userPreference = responses.get("userPreference") ?? "";
 
-    async function createResponse() {
-      await db.responses.create({
-        data: {
-          id: uuidv4(),
-          response1: response1,
-          response2: response2 || "no response",
-          response3: response3 || "no response",
-          userPreference: userPreference,
-        },
-      });
-    }
-    createResponse()
-      .then(async () => {
-        await db.$disconnect();
+    const userResponse = {
+      response1,
+      response2,
+      response3,
+      userPreference,
+    };
+
+    addResponse(userResponse)
+      .then(() => {
+        console.log("success");
+        responseCreated = true;
       })
-      .catch(async (e) => {
+      .catch((e) => {
         console.log(e);
-        await db.$disconnect();
-        process.exit(1);
       });
-    console.log("success");
-    throw redirect(303, "/survey/thank-you");
+
+      if(responseCreated){
+        throw redirect(303, "/survey/thank-you");
+      }
   },
+
+ 
 };

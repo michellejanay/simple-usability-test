@@ -17,7 +17,7 @@
       >
       <li>
         <input
-          name="userResponse1"
+          name="response1"
           type="radio"
           value="Laptop/Desktop"
           id="laptop-desktop"
