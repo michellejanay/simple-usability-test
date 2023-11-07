@@ -3,11 +3,11 @@
   import { data } from "$lib";
   import desktopOptions from "$lib/images/desktop-options.png";
   import mobileOptions from "$lib/images/mobile-options.png";
-  console.log(data);
+
   let imgSrc;
   if (data[0] === "Laptop/Desktop") {
     imgSrc = desktopOptions;
-  } else {
+  } else if (data[0] === "Mobile App" || data[0] === "In Store") {
     imgSrc = mobileOptions;
   }
 </script>
@@ -22,7 +22,7 @@
         <legend>Which design did you prefer?</legend>
         <li>
           <input
-            name="response4"
+            name="userPreference"
             type="radio"
             id="option1"
             value="option-1"
@@ -33,7 +33,7 @@
         </li>
         <li>
           <input
-            name="response4"
+            name="userPreference"
             type="radio"
             id="option2"
             value="option-2"

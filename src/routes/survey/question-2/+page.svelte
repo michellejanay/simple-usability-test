@@ -24,8 +24,8 @@
       screen? Describe why or why not.
     </h1>
     <textarea
-      name=""
-      id=""
+      name="response2"
+      id="response2"
       cols="30"
       rows="4"
       placeholder="Your response..."
