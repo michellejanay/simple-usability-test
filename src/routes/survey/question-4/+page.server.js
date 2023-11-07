@@ -22,7 +22,7 @@ const addResponse = async (userResponse) => {
   `;
 
   const result = await pool.sql`
-    INSERT INTO public."Responses"(
+    INSERT INTO public.Responses(
       id, response1, response2, response3, "userPreference", "createdAt")
       VALUES (
         ${uuidv4()}, ${userResponse.response1}, ${userResponse.response2}, ${
