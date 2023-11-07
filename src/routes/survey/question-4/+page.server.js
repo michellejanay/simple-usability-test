@@ -14,7 +14,7 @@ const addResponse = async (userResponse) => {
   console.log(userResponse);
   await pool.sql`
   CREATE TABLE IF NOT EXISTS Responses (
-    id VARCHAR(255) PRIMARY KEY, 
+    id SERIAL PRIMARY KEY, 
     response1 VARCHAR(255),
     response2 VARCHAR(225),
     response3 VARCHAR(225),
