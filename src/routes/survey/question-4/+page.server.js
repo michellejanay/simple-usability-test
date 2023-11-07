@@ -8,24 +8,26 @@ const pool = createPool({
 });
 let responseCreated = false;
 
+let id = Math.floor(Math.random() * 1000);
+
 const addResponse = async (userResponse) => {
   console.log(userResponse);
   await pool.sql`
   CREATE TABLE IF NOT EXISTS Responses (
-    id SERIAL PRIMARY KEY, 
+    id VARCHAR(255) PRIMARY KEY, 
     response1 VARCHAR(255),
     response2 VARCHAR(225),
     response3 VARCHAR(225),
-    userPreference VARCHAR(225),
+    userpreference VARCHAR(225),
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
   );
   `;
 
   const result = await pool.sql`
-    INSERT INTO public.Responses(
-      id, response1, response2, response3, "userPreference", "createdAt")
+    INSERT INTO public.responses(
+      id, response1, response2, response3, userPreference, "createdAt")
       VALUES (
-        ${uuidv4()}, ${userResponse.response1}, ${userResponse.response2}, ${
+        ${id}, ${userResponse.response1}, ${userResponse.response2}, ${
     userResponse.response3
   }, ${userResponse.userPreference}, ${new Date()}
       );
